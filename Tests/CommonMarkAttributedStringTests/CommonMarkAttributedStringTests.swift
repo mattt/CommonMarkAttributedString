@@ -12,12 +12,6 @@ final class CommonMarkAttributedStringTests: XCTestCase {
 
         let attributedString = try NSAttributedString(commonmark: commonmark, attributes: attributes)
 
-        if let rtf = attributedString.rtf(from: NSRange(location: 0, length: attributedString.length), documentAttributes: [:]) {
-            let attachment = XCTAttachment(data: rtf, uniformTypeIdentifier: "public.rtf")
-            attachment.lifetime = .keepAlways
-            add(attachment)
-        }
-
         XCTAssertEqual(attributedString.string, "A bold way to add emphasis to your code")
     }
 
@@ -41,12 +35,6 @@ final class CommonMarkAttributedStringTests: XCTestCase {
         ]
 
         let attributedString = try NSAttributedString(commonmark: commonmark, attributes: attributes)
-
-        if let rtf = attributedString.rtf(from: NSRange(location: 0, length: attributedString.length), documentAttributes: [:]) {
-            let attachment = XCTAttachment(data: rtf, uniformTypeIdentifier: "public.rtf")
-            attachment.lifetime = .keepAlways
-            add(attachment)
-        }
 
         XCTAssert(attributedString.string.starts(with: "Universal Declaration of Human Rights"))
     }
