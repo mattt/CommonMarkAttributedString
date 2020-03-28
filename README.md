@@ -8,6 +8,13 @@ create attributed strings using familiar CommonMark (Markdown) syntax.
 It's built on top of [CommonMark][commonmark],
 which is fully compliant with the [CommonMark Spec][commonmark spec].
 
+## Supported Platforms
+
+- macOS 10.10+
+- Mac Catalyst 13.0+
+- iOS 9.0+
+- tvOS 9.0+
+
 ## Usage
 
 ```swift
