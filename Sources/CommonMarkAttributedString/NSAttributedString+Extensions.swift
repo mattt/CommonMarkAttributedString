@@ -1,13 +1,14 @@
 import Foundation
 
-#if canImport(AppKit)
+#if canImport(UIKit)
+import class UIKit.NSTextAttachment
+#elseif canImport(AppKit)
 import class AppKit.NSTextAttachment
 #endif
 
 import CommonMark
 
 extension NSAttributedString {
-
     /**
      Create an attributed string from CommonMark text.
      - Parameters:
@@ -21,7 +22,7 @@ extension NSAttributedString {
         try self.init(attributedString: document.attributedString(attributes: attributes ?? [:], attachments: attachments ?? [:]))
     }
     
-    convenience init?(html: String, attributes: [NSAttributedString.Key: Any]) {
+    convenience init?(html: String, attributes: [NSAttributedString.Key: Any]) throws {
         guard let data = html.data(using: .utf8) else { return nil }
         
         let options: [NSAttributedString.DocumentReadingOptionKey: Any] = [
@@ -30,9 +31,13 @@ extension NSAttributedString {
         ]
         
         var documentAttributes: NSDictionary? = [:]
+        #if canImport(UIKit)
+        let mutableAttributedString = try NSMutableAttributedString(data: data, options: options, documentAttributes: &documentAttributes)
+        #elseif canImport(AppKit)
         guard let mutableAttributedString = NSMutableAttributedString(html: data, options: options, documentAttributes: &documentAttributes) else {
             return nil
         }
+        #endif
         
         mutableAttributedString.addAttributes(attributes, range: NSMakeRange(0, mutableAttributedString.length))
         

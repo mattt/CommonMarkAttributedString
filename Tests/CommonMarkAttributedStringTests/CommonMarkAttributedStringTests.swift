@@ -1,14 +1,27 @@
 import XCTest
 import CommonMarkAttributedString
 
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+
 final class CommonMarkAttributedStringTests: XCTestCase {
     func testReadmeExample() throws {
         let commonmark = "A *bold* way to add __emphasis__ to your `code`"
 
+        #if canImport(UIKit)
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.systemFont(ofSize: 24.0),
+            .foregroundColor: UIColor.systemBlue
+        ]
+        #elseif canImport(AppKit)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: 24.0),
-            .foregroundColor: NSColor.systemBlue,
+            .foregroundColor: NSColor.systemBlue
         ]
+        #endif
 
         let attributedString = try NSAttributedString(commonmark: commonmark, attributes: attributes)
 
@@ -28,11 +41,26 @@ final class CommonMarkAttributedStringTests: XCTestCase {
         [uhdr]: https://www.un.org/en/universal-declaration-human-rights/ "View full version"
         """#
 
+        #if canImport(UIKit)
+        var attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .body),
+        ]
+        if #available(iOS 13.0, macCatalyst 13.0, tvOS 13.0, *) {
+            attributes[.foregroundColor] = UIColor.label
+            #if os(iOS)
+            attributes[.backgroundColor] = UIColor.systemBackground
+            #endif
+        } else {
+            attributes[.foregroundColor] = UIColor.black
+            attributes[.backgroundColor] = UIColor.white
+        }
+        #elseif canImport(AppKit)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: NSFont.systemFont(ofSize: NSFont.systemFontSize),
             .foregroundColor: NSColor.textColor,
-            .backgroundColor: NSColor.textBackgroundColor,
+            .backgroundColor: NSColor.textBackgroundColor
         ]
+        #endif
 
         let attributedString = try NSAttributedString(commonmark: commonmark, attributes: attributes)
 

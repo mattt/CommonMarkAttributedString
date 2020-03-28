@@ -1,5 +1,10 @@
+#if canImport(AppKit)
 import class AppKit.NSAttributedString
 import class AppKit.NSMutableAttributedString
+#elseif canImport(UIKit)
+import class UIKit.NSAttributedString
+import class UIKit.NSMutableAttributedString
+#endif
 
 extension Array where Element == NSAttributedString {
     func joined(separator: String? = nil) -> NSAttributedString {
