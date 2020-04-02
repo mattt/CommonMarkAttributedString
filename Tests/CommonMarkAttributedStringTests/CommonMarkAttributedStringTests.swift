@@ -66,4 +66,21 @@ final class CommonMarkAttributedStringTests: XCTestCase {
 
         XCTAssert(attributedString.string.starts(with: "Universal Declaration of Human Rights"))
     }
+
+    func testHeaderFont() throws {
+        let commonmark = "# Font family should not change"
+
+        #if canImport(UIKit)
+        typealias Font = UIFont
+        #elseif canImport(AppKit)
+        typealias Font = NSFont
+        #endif
+
+        let font = Font.boldSystemFont(ofSize: 10)
+        let attributedString = try NSAttributedString(commonmark: commonmark, attributes: [.font: font])
+        let actualAttributes = attributedString.attributes(at: 0, effectiveRange: nil)
+
+        XCTAssertEqual((actualAttributes[.font] as? Font)?.displayName, font.displayName)
+        XCTAssertGreaterThan((actualAttributes[.font] as? Font)?.pointSize ?? 0, font.pointSize)
+    }
 }
