@@ -104,10 +104,10 @@ extension Heading {
 
         #if canImport(UIKit)
         let font = attributes[.font] as? UIFont ?? UIFont.preferredFont(forTextStyle: .body)
-        attributes[.font] = UIFont(name: font.fontName, size: font.pointSize * fontSizeMultiplier)?.addingSymbolicTraits(.traitBold)
+        attributes[.font] = UIFont(descriptor: font.fontDescriptor, size: font.pointSize * fontSizeMultiplier).addingSymbolicTraits(.traitBold)
         #elseif canImport(AppKit)
         let font = attributes[.font] as? NSFont ?? NSFont.systemFont(ofSize: NSFont.systemFontSize)
-        attributes[.font] = NSFont(name: font.fontName, size: font.pointSize * fontSizeMultiplier)?.addingSymbolicTraits(.bold)
+        attributes[.font] = NSFont(descriptor: font.fontDescriptor, size: font.pointSize * fontSizeMultiplier)?.addingSymbolicTraits(.bold)
         #endif
 
         return attributes

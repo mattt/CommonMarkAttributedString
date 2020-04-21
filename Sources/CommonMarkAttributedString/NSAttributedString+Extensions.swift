@@ -44,4 +44,3 @@ extension NSAttributedString {
         self.init(attributedString: mutableAttributedString)
     }
 }
-
