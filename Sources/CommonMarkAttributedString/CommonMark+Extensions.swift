@@ -37,7 +37,7 @@ extension Node: AttributedStringConvertible {
 
             return try container.children.map { try $0.attributedString(attributes: attributes, attachments: attachments) }.joined(separator: "\u{2029}")
         case let container as ContainerOfInlineElements:
-            guard !container.children.contains(where: { $0 is HTML }) else {
+            guard !container.children.contains(where: { $0 is RawHTML }) else {
                 let html = try Document(container.description).render(format: .html)
                 return try NSAttributedString(html: html, attributes: attributes) ?? NSAttributedString()
             }
