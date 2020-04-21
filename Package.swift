@@ -16,7 +16,7 @@ let package = Package(
             targets: ["CommonMarkAttributedString"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/SwiftDocOrg/CommonMark.git", from: "0.2.2"),
+        .package(url: "https://github.com/SwiftDocOrg/CommonMark.git", .upToNextMinor(from: "0.2.2")),
     ],
     targets: [
         .target(
