@@ -68,19 +68,33 @@ final class CommonMarkAttributedStringTests: XCTestCase {
     }
 
     func testHeaderFont() throws {
-        let commonmark = "# Font family should not change"
+        let commonmark = #"""
+        # Helvetica
+
+        > You can say, "I love you," in Helvetica.
+        > And you can say it with Helvetica Extra Light
+        > if you want to be really fancy.
+        > Or you can say it with the Extra Bold
+        > if it's really intensive and passionate, you know,
+        > and it might work.
+        >
+        > ― Massimo Vignelli
+        """#
 
         #if canImport(UIKit)
-        typealias Font = UIFont
-        #elseif canImport(AppKit)
-        typealias Font = NSFont
-        #endif
-
-        let font = Font.boldSystemFont(ofSize: 10)
+        let font = UIFont.boldSystemFont(ofSize: 10)
         let attributedString = try NSAttributedString(commonmark: commonmark, attributes: [.font: font])
         let actualAttributes = attributedString.attributes(at: 0, effectiveRange: nil)
 
-        XCTAssertEqual((actualAttributes[.font] as? Font)?.displayName, font.displayName)
-        XCTAssertGreaterThan((actualAttributes[.font] as? Font)?.pointSize ?? 0, font.pointSize)
+        XCTAssertEqual((actualAttributes[.font] as? UIFont)?.fontName, font.fontName)
+        XCTAssertGreaterThan((actualAttributes[.font] as? UIFont)?.pointSize ?? 0, font.pointSize)
+        #elseif canImport(AppKit)
+        let font = NSFont.boldSystemFont(ofSize: 10)
+        let attributedString = try NSAttributedString(commonmark: commonmark, attributes: [.font: font])
+        let actualAttributes = attributedString.attributes(at: 0, effectiveRange: nil)
+
+        XCTAssertEqual((actualAttributes[.font] as? NSFont)?.displayName, font.displayName)
+        XCTAssertGreaterThan((actualAttributes[.font] as? NSFont)?.pointSize ?? 0, font.pointSize)
+        #endif
     }
 }
